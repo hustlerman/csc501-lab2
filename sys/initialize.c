@@ -165,6 +165,8 @@ sysinit()
 			NULLSTK);
 	}
 	
+	// Initialize Frame Table
+	init_frm();
 
 	for (i=0 ; i<NPROC ; i++)	/* initialize process table */
 		proctab[i].pstate = PRFREE;
@@ -186,6 +188,12 @@ sysinit()
 	}
 #endif
 
+	// TODO: Create page tables for pages 0-4096 (Global tables)
+	// MAKE SURE TO SET pt_pres AND pt_write TO 1 FOR THESE ENTRIES
+
+
+	// TODO: Allocate and initialize null process page directory
+
 	pptr = &proctab[NULLPROC];	/* initialize null process entry */
 	pptr->pstate = PRCURR;
 	for (j=0; j<7; j++)
@@ -202,6 +210,15 @@ sysinit()
 	pptr->pargs = 0;
 	pptr->pprio = 0;
 	currpid = NULLPROC;
+
+	// TODO: Allocate and initialize a page directory for the NULL Process
+	
+	// TODO: Set the PDBR register to the page directory for the NULL process.
+	
+	// TODO: Install the page fault interrupt service routine.
+	
+	// Enable paging.
+	enable_paging();
 
 	for (i=0 ; i<NSEM ; i++) {	/* initialize semaphores */
 		(sptr = &semaph[i])->sstate = SFREE;

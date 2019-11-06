@@ -14,8 +14,6 @@
 #endif
 
 #define	FDFREE		-1		/* free file descriptor */
-#define PRFREE		'\002'          /* process slot is free         */
-
 
 /* process state constants */
 
@@ -78,7 +76,6 @@ struct	pentry	{
         int     vhpnpages;              /* vheap size                   */
         struct mblock *vmemlist;        /* vheap list              	*/
 };
-
 
 extern	struct	pentry proctab[];
 extern	int	numproc;		/* currently active processes	*/

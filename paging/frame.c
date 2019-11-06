@@ -10,7 +10,22 @@
  */
 SYSCALL init_frm()
 {
-  kprintf("To be implemented!\n");
+  // Creates the frame table
+  for(int i = 0; i < NFRAMES; i++) {
+    frm_tab[i].fr_status = FRM_UNMAPPED;
+    frm_tab[i].fr_refcnt = 0;
+  }
+  
+  // Creates the free list of frames
+  free_frs = getmem(sizeof(ffr_node_t));
+  ffr_node_t *curr = free_frs;
+  for(int i = 0; i < NFRAMES; i++) {
+    curr->fr_index = i;
+    curr->next = getmem(sizeof(ffr_node_t));
+    curr = curr->next;
+  }
+  curr->next = NULL;
+
   return OK;
 }
 
@@ -20,6 +35,14 @@ SYSCALL init_frm()
  */
 SYSCALL get_frm(int* avail)
 {
+  // Check free list of frames first
+  if(free_frs != NULL) {
+    ffr_node_t *temp = free_frs;
+    int fr_index = free_frs->fr_index;
+    free_frs = free_frs->next;
+    freemem(temp, sizeof(ffr_node_t));
+  }
+
   kprintf("To be implemented!\n");
   return OK;
 }
@@ -30,8 +53,7 @@ SYSCALL get_frm(int* avail)
  */
 SYSCALL free_frm(int i)
 {
-
-  kprintf("To be implemented!\n");
+  frm_tab[i].fr_status = FRM_UNMAPPED;
   return OK;
 }
 

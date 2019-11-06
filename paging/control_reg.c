@@ -1,8 +1,9 @@
 /* control_reg.c - read_cr0 read_cr2 read_cr3 read_cr4
-		   write_cr0 write_cr3 write_cr4 enable_pagine */
+		   write_cr0 write_cr3 write_cr4 enable_paging */
 
 #include <conf.h>
 #include <kernel.h>
+#include <paging.h>
 
 unsigned long tmp;
 
@@ -177,7 +178,7 @@ void write_cr4(unsigned long n) {
 
 
 /*-------------------------------------------------------------------------
- * enable_pagine - enable paging 
+ * enable_paging - enable paging 
  *-------------------------------------------------------------------------
  */
 void enable_paging(){

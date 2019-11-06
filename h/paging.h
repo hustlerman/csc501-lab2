@@ -59,6 +59,11 @@ typedef struct{
   int fr_dirty;
 }fr_map_t;
 
+typedef struct {
+  int fr_index;
+  ffr_node_t *next;
+} ffr_node_t; // Free Frame Node
+
 extern bs_map_t bsm_tab[];
 extern fr_map_t frm_tab[];
 /* Prototypes for required API calls */
@@ -71,6 +76,21 @@ int get_bs(bsd_t, unsigned int);
 SYSCALL release_bs(bsd_t);
 SYSCALL read_bs(char *, bsd_t, int);
 SYSCALL write_bs(char *, bsd_t, int);
+
+// Call to enable paging (changes control reg)
+void enable_paging();
+
+// Calls for frame management
+SYSCALL init_frm();
+SYSCALL get_frm(int* avail);
+SYSCALL free_frm(int i);
+
+// PD and PT Structure creation
+pd_t *create_pd();
+pt_t *create_pt();
+
+// Free List for Frames
+extern ffr_node_t* free_frs;
 
 #define NBPG		4096	/* number of bytes per page	*/
 #define FRAME0		1024	/* zero-th frame		*/
