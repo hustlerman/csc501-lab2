@@ -41,9 +41,12 @@ SYSCALL get_frm(int* avail)
     int fr_index = free_frs->fr_index;
     free_frs = free_frs->next;
     freemem(temp, sizeof(ffr_node_t));
+  } else {
+    // Evict based on page replacement policy
+    kprintf("Page replacement to be implemented!\n");
+    return SYSERR;
   }
-
-  kprintf("To be implemented!\n");
+  
   return OK;
 }
 
@@ -54,6 +57,7 @@ SYSCALL get_frm(int* avail)
 SYSCALL free_frm(int i)
 {
   frm_tab[i].fr_status = FRM_UNMAPPED;
+  // TODO: REALLOCATE A SPOT IN FREE LIST
   return OK;
 }
 
